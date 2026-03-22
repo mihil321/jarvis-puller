@@ -4,14 +4,14 @@ jobs:
   download:
     runs-on: ubuntu-latest
     steps:
-      - name: Pull and Save Image
+      - name: Pull and Save Evolution API
         run: |
-          # Пробуем скачать официальный образ WAHA
-          docker pull docker.io/devopsaurus/waha:latest
-          # Сохраняем его
-          docker save -o waha.tar docker.io/devopsaurus/waha:latest
+          # Скачиваем официальный и открытый образ Evolution API
+          docker pull evolutionapi/evolution-api:latest
+          # Сохраняем его в файл
+          docker save -o evolution.tar evolutionapi/evolution-api:latest
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: waha-archive
-          path: waha.tar
+          name: evolution-archive
+          path: evolution.tar
