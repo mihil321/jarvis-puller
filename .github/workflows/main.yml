@@ -4,13 +4,18 @@ jobs:
   download:
     runs-on: ubuntu-latest
     steps:
-      - name: Pull and Save Evolution API
+      - name: Pull from GitHub Registry
         run: |
-          # Скачиваем официальный и открытый образ Evolution API
-          docker pull evolutionapi/evolution-api:latest
-          # Сохраняем его в файл
+          # Мы берем образ прямо из Гитхаба, минуя блокировки Docker Hub
+          docker pull ghcr.io/evolutionapi/evolution-api:latest
+          
+          # Переименовываем его в стандартное имя для твоего сервера
+          docker tag ghcr.io/evolutionapi/evolution-api:latest evolutionapi/evolution-api:latest
+          
+          # Сохраняем в файл
           docker save -o evolution.tar evolutionapi/evolution-api:latest
       - name: Upload Artifact
+      
         uses: actions/upload-artifact@v4
         with:
           name: evolution-archive
