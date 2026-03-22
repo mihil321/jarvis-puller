@@ -1,14 +1,20 @@
-name: Docker Puller
+name: Docker Builder
 on: [workflow_dispatch]
 jobs:
-  download:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Pull from GitHub Registry
-        run: |
-          docker pull ghcr.io/evolutionapi/evolution-api:latest
-          docker tag ghcr.io/evolutionapi/evolution-api:latest evolutionapi/evolution-api:latest
-          docker save -o evolution.tar evolutionapi/evolution-api:latest
+      - name: Checkout Code
+        # GitHub скачивает исходный код Evolution API к себе "домой"
+        run: git clone https://github.com/EvolutionAPI/evolution-api.git .
+
+      - name: Build Docker Image
+        # Мы строим образ сами! Никаких "Pull denied"
+        run: docker build -t evolutionapi/evolution-api:latest .
+
+      - name: Save Image to File
+        run: docker save -o evolution.tar evolutionapi/evolution-api:latest
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
