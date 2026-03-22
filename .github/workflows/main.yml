@@ -1,22 +1,17 @@
-name: Docker Builder
+name: Docker Puller (Postgres)
 on: [workflow_dispatch]
 jobs:
-  build:
+  download:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        # GitHub скачивает исходный код Evolution API к себе "домой"
-        run: git clone https://github.com/EvolutionAPI/evolution-api.git .
-
-      - name: Build Docker Image
-        # Мы строим образ сами! Никаких "Pull denied"
-        run: docker build -t evolutionapi/evolution-api:latest .
-
-      - name: Save Image to File
-        run: docker save -o evolution.tar evolutionapi/evolution-api:latest
-
+      - name: Pull and Save Postgres
+        run: |
+          # Скачиваем легкую версию базы данных
+          docker pull postgres:15-alpine
+          # Сохраняем в файл
+          docker save -o postgres.tar postgres:15-alpine
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: evolution-archive
-          path: evolution.tar
+          name: postgres-archive
+          path: postgres.tar
