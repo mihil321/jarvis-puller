@@ -6,8 +6,10 @@ jobs:
     steps:
       - name: Pull and Save Image
         run: |
-          docker pull devopsaurus/waha:latest
-          docker save -o waha.tar devopsaurus/waha:latest
+          # Пробуем скачать официальный образ WAHA
+          docker pull docker.io/devopsaurus/waha:latest
+          # Сохраняем его
+          docker save -o waha.tar docker.io/devopsaurus/waha:latest
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
