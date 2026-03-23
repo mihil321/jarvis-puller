@@ -1,17 +1,17 @@
-name: Docker Puller (Postgres)
+name: Docker Puller (Redis)
 on: [workflow_dispatch]
 jobs:
   download:
     runs-on: ubuntu-latest
     steps:
-      - name: Pull and Save Postgres
+      - name: Pull and Save Redis
         run: |
-          # Скачиваем легкую версию базы данных
-          docker pull postgres:15-alpine
+          # Скачиваем очень легкую версию Redis
+          docker pull redis:7-alpine
           # Сохраняем в файл
-          docker save -o postgres.tar postgres:15-alpine
+          docker save -o redis.tar redis:7-alpine
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: postgres-archive
-          path: postgres.tar
+          name: redis-archive
+          path: redis.tar
